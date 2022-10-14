@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+#category {
+	font-size: medium;
+}
+</style>
+</head>
+
+<body>
+
+<form method="post" action="{% url 'selectedvehicle'  %}" method="post">
+  {% csrf_token %}
+
+  <div align="center">
+
+
+    <table width="360" height="190" border="1">
+
+      <tr>
+        <td width="73" height="69">Sl. No</td>
+        <td width="185">Brand</td>
+        <td width="185">Vehicle Name</td>
+        <td width="185">Year</td>
+        <td width="185">CC</td>
+        <td width="185">Description</td>
+        <td width="185">Price</td>
+
+        <td width="185">Image 1</td>
+        <td width="185">Image 2</td>
+         <td width="185">Image 3</td>
+        <td width="185"><div align="center">
+          <select name="brand" id="">
+            {% for br in brnd %}
+            <option value="{{ br.id }}">{{ br.name }}</option>
+            {% endfor %}
+          </select>
+        </div><input  type="submit" value="Add new" required/></td>
+      </tr>
+
+
+
+
+{% for x in vehicles %}
+
+      <tr>
+        <td>{{forloop.counter}}</td>
+
+        <td>{% for i in vname %} {% for br in brnd %}  {% if br.id == i.brand_id %} {% if i.id == x.vehiclename_id_id %}  {{ br.name }} {% endif %} {% endif %} {% endfor %} {% endfor %} </td>
+
+        <td> {% for i in vname %} {% if i.id == x.vehiclename_id_id %}  {{ i.name }}  {% endif %} {% endfor %} </td>
+        <td>{{ x.year }} </td>
+        <td>{{ x.cc }} </td>
+        <td>{{ x.des }} </td>
+        <td>{{ x.price }} </td>
+        <td><img src="/media/{{ x.image1 }}"  width="100" height="100" /></td>
+        <td><img src="/media/{{ x.image2 }}"  width="100" height="100" /></td>
+        <td><img src="/media/{{ x.image3 }}"  width="100" height="100" /></td>
+<td></td>
+      </tr>
+      <tr align="center">
+        <td><a href="">Add to Cart</a>  </td>
+         <td> <a href="">Book</a> </td>
+      </tr>
+{% endfor %}
+
+  </table>
+  </div>
+
+</form>
+
+</body>
+</html>

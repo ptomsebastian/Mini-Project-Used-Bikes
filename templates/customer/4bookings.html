@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>View Vehicles</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src = "https://code.jquery.com/jquery-3.5.1.js"> </script>
+    <script src = "https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"> </script>
+
+<script>
+    $(document).ready( function () {
+    $('#example').DataTable();
+} );
+</script>
+<style type="text/css">
+
+#category {
+	font-size: medium;
+}
+</style>
+</head>
+
+<tbody>
+
+<form method="post" action="{% url 'view_bookings'  %}" method="post">
+  {% csrf_token %}
+
+  <div align="center">
+
+
+    <table id="example" class="display"  style="width:100%" border="1">
+<thead>
+      <tr>
+          <td width="185">Booking Id</td>
+        <td width="185">Customer Name</td>
+        <td width="185">Vehicle Name</td>
+        <td width="185">Date</td>
+        <td width="185">Phone</td>
+        <td width="185">Status</td>
+
+
+      </tr>
+</thead>
+
+
+{% for x in vehicles %}
+
+      <tr>
+          <td>{{ x.bid }} </td>
+          <td> {% for i in vname %} {% if i.id == x.vehiclename_id_id %}  {{ i.name }}  {% endif %} {% endfor %} </td>
+          <td> {% for i in vname %} {% if i.id == x.vehiclename_id_id %}  {{ i.name }}  {% endif %} {% endfor %} </td>
+        <td>{{ x.Date }} </td>
+
+        <td>{{ x.phone }} </td>
+        <td>{{ x.status }} </td>
+
+
+      </tr>
+{% endfor %}
+
+
+
+  </table>
+  </div>
+
+</form>
+
+</tbody>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>

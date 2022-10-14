@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+#category {
+	font-size: medium;
+}
+</style>
+</head>
+
+<body>
+<form method="post" action="{% url 'getvehiclename' %}" method="post">
+                   {% csrf_token %}
+
+  
+<div align="right"><select name="brand" id="category">
+  {% for br in brnd %}
+    <option value="{{ br.id }}">{{ br.name }}</option>
+
+   {% endfor %}
+  </select>
+    <input name="Vehicle Name" type="text" id="vehiclename" align="right" /><input  type="submit" value="Add new" required/></div>
+  <div align="center">
+
+
+    <table width="347" height="182" border="1">
+
+      <tr>
+        <td width="73" height="69">Sl. No</td>
+        <td width="185">Vehicle Name</td>
+         <td width="185"></td>
+      </tr>
+      {% for vn in vehiclename %}
+      <tr>
+        <td>{{forloop.counter}}
+         </td>
+        <td>{{vn.name}} </td>
+        <td width="185"><a href="{% url 'deletevehiclename' vn.id %}">Delete</a> </td>
+      </tr>
+       {% endfor %}
+
+  </table>
+  </div>
+
+</form>
+
+</body>
+</html>
+
+
