@@ -1,7 +1,11 @@
+import os
+
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.serializers import serialize
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 #from.models import Patient,Slot,Customer,User,Appointment,Category,Feedback,Home,Info,Order,Payment,Result,Test
@@ -13,7 +17,6 @@ User = get_user_model()
 # Create your views here.
 
 
-
 def index(request):
     return render(request, 'index.html')
 
@@ -22,6 +25,20 @@ def signin(request):
 
 def signup(request):
    return render(request, '1register.html')
+
+
+def gk_logout(request):
+    # Log out the user.
+    logout(request)
+    # Return to homepage.
+    return render(request, 'index.html')
+
+
+# def lab_logout(request):
+#     # Log out the user.
+#     logout(request)
+#     # Return to homepage.
+#     return render(request, 'index.html')
 
 
 def vehicle_management(request):
@@ -44,6 +61,7 @@ def feedback_management(request):
 def business_report(request):
     return HttpResponse("success")
 
+
 def brand_management(request):
     brnd = Brand.objects.all().values()
     context = {'brnd': brnd}
@@ -56,7 +74,12 @@ def getbrand(request):
     b=Brand()
     b.name=brand
     b.save()
+    url = '/brand'
+    resp_body = '<script>alert("Brand added successfully");\
+                            window.location="%s"</script>' % url
+    return HttpResponse(resp_body)
     return redirect('brand_management')
+
    # return HttpResponse("success")
 
 def deletebrand(request,bid):
@@ -85,6 +108,10 @@ def getvehiclename(request):
     b.name=vehiclename
     b.brand_id=brand
     b.save()
+    url = '/vehiclename'
+    resp_body = '<script>alert("Vehicle name added successfully");\
+                            window.location="%s"</script>' % url
+    return HttpResponse(resp_body)
     return redirect('vehicle_name_management')
 
 def deletevehiclename(request,vnid):
@@ -118,51 +145,52 @@ def deletevehicle(request,vid):
     entry.delete()
     return redirect('vehicle_management')
 
-def gotoupdatevehiclepage(request,vid):
-    veh = Vehicle.objects.get(id=vid)
-    request.session['vid'] = vid
-    context = {'veh': veh}
-
-    return render(request,'labadmin/5updatevehicle.html',context)
-
-
-def updatevehicle(request):
-    vid = request.session['vid']
-    b = Vehicle.objects.get(id=vid)
-    print(b)
-
-    vnum = request.POST['vnum']
-    vin = request.POST['vin']
-    cc = request.POST['cc']
-    year = request.POST['year']
-    price = request.POST['price']
-    description = request.POST['description']
-    product1 = request.POST.get('image1', False)
-    product2 = request.POST.get('image2', False)
-    product3 = request.POST.get('image3', False)
-    # product1 = request.FILES['image1']
-    # product2 = request.FILES['image2']
-    # product3 = request.FILES['image3']
-    # image = request.POST['image']
-    #form = VehicleForm(request.POST, request.FILES)
-    # if form.is_valid():
-    #     form.save()
-
-    #b.brand
-    b.vehiclenumber=vnum
-    b.cc=cc
-    b.vin=vin
-    b.des=description
-    b.year=year
-    b.price=price
-    b.image1=product1
-    b.image2=product2
-    b.image3=product3
-    b.save()
-    #
-
-    print(vnum,vin,cc,year,price)
-    return redirect('vehicle_management')
+# def gotoupdatevehiclepage(request,vid):
+#     veh = Vehicle.objects.get(id=vid)
+#     request.session['vid'] = vid
+#     context = {'veh': veh}
+#
+#     return render(request,'labadmin/5updatevehicle.html',context)
+#
+#
+# def updatevehicle(request):
+#     vid = request.session['vid']
+#     b = Vehicle.objects.get(id=vid)
+#     print(b)
+#
+#     vnum = request.POST['vnum']
+#     vin = request.POST['vin']
+#     cc = request.POST['cc']
+#     year = request.POST['year']
+#     price = request.POST['price']
+#     description = request.POST['description']
+#     product1 = request.POST.get('image1', False)
+#     product2 = request.POST.get('image2', False)
+#     product3 = request.POST.get('image3', False)
+#
+#
+#     #b.brand
+#     b.vehiclenumber=vnum
+#     b.cc=cc
+#     b.vin=vin
+#     b.des=description
+#     b.year=year
+#     b.price=price
+#     b.image1=product1
+#     b.image2=product2
+#     b.image3=product3
+#     b.save()
+#     #
+#     url = '/vehicle'
+#     resp_body = '<script>alert("Vehicle updated successfully");\
+#                             window.location="%s"</script>' % url
+#     return HttpResponse(resp_body)
+#
+#     print(vehiclename_id,vnum,vin,cc,year,price)
+#
+#
+#     print(vnum,vin,cc,year,price)
+#     return redirect('vehicle_management')
 
 
 
@@ -172,6 +200,8 @@ def getvehicleinfo(request):
     vnum = request.POST['vnum']
     vin = request.POST['vin']
     cc = request.POST['cc']
+    colour = request.POST['colour']
+    km = request.POST['km']
     year = request.POST['year']
     price = request.POST['price']
     description = request.POST['description']
@@ -187,6 +217,8 @@ def getvehicleinfo(request):
     #b.brand
     b.vehiclenumber=vnum
     b.cc=cc
+    b.colour=colour
+    b.km=km
     b.vin=vin
     b.des=description
     b.year=year
@@ -197,9 +229,78 @@ def getvehicleinfo(request):
     b.vehiclename_id_id=vehiclename_id
     b.save()
     #
+    url = '/vehicle'
+    resp_body = '<script>alert("Vehicle added successfully");\
+                            window.location="%s"</script>' % url
+    return HttpResponse(resp_body)
 
-    print(vehiclename_id,vnum,vin,cc,year,price)
+    # print(vehiclename_id,vnum,vin,cc,year,price)
     return redirect('vehicle_management')
+
+
+
+
+
+def gotoupdatevehiclepage(request,vid):
+    veh = Vehicle.objects.get(id=vid)
+    request.session['vid'] = vid
+    context = {'veh': veh}
+    print(veh)
+
+    return render(request,'labadmin/5updatevehicle.html',context)
+
+
+def updatevehicle(request):
+    vid = request.session['vid']
+    b = Vehicle.objects.get(id=vid)
+    print(b)
+    if request.method=="POST":
+        # if len(request.FILES) !=0:
+        #     if len(b.image1)>0:
+        #         os.remove(b.image1.path)
+            # elif len(b.image2)>0:
+            #     os.remove(b.image2.path)
+            # elif len(b.image3)>0:
+            #     os.remove(b.image3.path)
+
+        vnum = request.POST['vnum']
+        vin = request.POST['vin']
+        cc = request.POST['cc']
+        colour = request.POST['colour']
+        km = request.POST['km']
+        year = request.POST['year']
+        price = request.POST['price']
+        description = request.POST['description']
+        product1 = request.FILES.get('image1')
+        product2 = request.FILES.get('image2')
+        product3 = request.FILES.get('image3')
+
+        # b.brand
+        b.vehiclenumber = vnum
+        b.cc = cc
+        b.colour = colour
+        b.km = km
+        b.vin = vin
+        b.des = description
+        b.year = year
+        b.price = price
+        b.image1 = product1
+        b.image2 = product2
+        b.image3 = product3
+        b.save()
+        #
+        url = '/vehicle'
+        resp_body = '<script>alert("Vehicle updated successfully");\
+                                window.location="%s"</script>' % url
+        return HttpResponse(resp_body)
+
+        # print(vehiclename_id, vnum, vin, cc, year, price)
+
+    # print(vnum, vin, cc, year, price)
+    return redirect('vehicle_management')
+
+
+
 
 
 
@@ -249,33 +350,42 @@ def getregisterdata (request):
     passwd = request.POST['pwd']
     print(name,addr,gen,phone,email,passwd)
     p=make_password(passwd)
+    em = User.objects.filter(email=email)
+    if len(em)==0:
+        u = User()
+        u.email = email
+        u.password = p
+        u.username = email
+        u.first_name = name
+        u.last_name = name
+        u.user_type = "customer"
+        u.save()
 
-    u=User()
-    u.email=email
-    u.password=p
-    u.username=email
-    u.first_name=name
-    u.last_name=name
-    u.user_type="customer"
-    u.save()
+        uid = User.objects.filter(email=email).values('id')
+        print(uid)
+        # x = User.objects.filter(email=email)
+        # print(x)
+        # print(x['id'])
+        z = None
+        for i in uid:
+            z = i.get('id')
+        print(z)
+        c = Customer()
+        c.user_id = z
+        c.name = name
+        c.address = addr
+        c.gender = gen
+        c.phone = phone
+        c.save()
+        url = '/signup'
+        resp_body = '<script>alert("Registered Successfully");\
+                                window.location="%s"</script>' % url
+        return HttpResponse(resp_body)
 
-    uid = User.objects.filter(email=email).values('id')
-    print(uid)
-    # x = User.objects.filter(email=email)
-    # print(x)
-    # print(x['id'])
-    z = None
-    for i in uid:
-        z = i.get('id')
-    print(z)
-    c=Customer()
-    c.user_id=z
-    c.name=name
-    c.address=addr
-    c.gender=gen
-    c.phone=phone
-    c.save()
-
+    url = '/signup'
+    em_body = '<script>alert("Email id already exists!");\
+                            window.location="%s"</script>' % url
+    return HttpResponse(em_body)
     return redirect('register')
 
 
@@ -285,32 +395,68 @@ def getregisterdata (request):
 
 
 
-def login(request):
+def login_user(request):
     email = request.POST['username']
     password = request.POST['password']
+    try:
+        usr = User.objects.get(email=email)
+    except User.DoesNotExist:
+        usr = None
 
-    username = User.objects.get(email=email).username
-    user = authenticate(username=username, password=password)
+    if(usr):
+
+        user = authenticate(username=usr.username, password=password)
+
+        if user is not None:
+            usertype = user.user_type
+
+            if usertype == "shopowner":
+                return render(request, 'index2.html')
+
+            # elif usertype == 'resp':
+            #     return render(request, '')
+
+            elif usertype == 'customer':
+
+                customer = Customer.objects.get(user_id=user.id)
+                print(customer.id)
+                if (customer):
+
+                    request.session['uid'] = customer.id
+                    request.session['uname'] = customer.name
+                    # login(request, user)
+                    # return render(request, 'customer/user dash.html', context)
+                    return render(request, 'index3.html')
+
+                else:
+                    return HttpResponse('User not found!')
+
+                # return render(request, 'mysite/customer/templates/user dash.html')
+            else:
+                return HttpResponse('Invalid user!')
 
 
-
-    if user is not None:
-        usertype = user.user_type
-
-        if usertype == "shopowner":
-            return render(request, 'index2.html')
-
-        # elif usertype == 'resp':
-        #     return render(request, '')
-        elif usertype == 'customer':
-
-            return render(request, 'index3.html')
-           #return render(request, 'mysite/customer/templates/user dash.html')
         else:
-            return HttpResponse('Invalid user!')
+            url = 'signin'
+            resp_body = '<script>alert("Login error");\
+                                                   window.location="%s"</script>' % url
+            return HttpResponse(resp_body)
 
-    else:
-        return HttpResponse('login error!')
+        # else:
+        #     return HttpResponse('login error!')
+
+
+    url = 'signin'
+    resp_body = '<script>alert("Invalid username or password!");\
+                                                       window.location="%s"</script>' % url
+    return HttpResponse(resp_body)
+
+
+    # username = User.objects.get(email=email).username
+    # user = authenticate(username=username, password=password)
+
+
+
 
 
 

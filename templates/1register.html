@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>
+
 {% load static %}
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Register</title>
 <style>.card-registration .select-input.form-control[readonly]:not([disabled]) {
 font-size: 1rem;
 line-height: 2.15;
@@ -49,7 +49,11 @@ top: 13px;
             </div>
             <div class="col-xl-6">
               <div class="card-body p-md-5 text-black">
-                  <span class="h1 fw-bold mb-0" >SIGN UP</span>
+                  <div class="d-flex align-items-center mb-3 pb-1">
+                    <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                    <span class="h1 fw-bold mb-0">G.K MOTORS</span>
+                  </div>
+                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign-up your account</h5>
 <!--                  <h3 class="mb-5 text-uppercase"><b>SIGN UP</b></h3>-->
 
 
@@ -59,7 +63,7 @@ top: 13px;
                 <div class="row">
                  
                     <div class="form-outline mb-4"><br>
-                  <input type="text" id="form3Example8" class="form-control form-control-lg" name="name" required/>
+                  <input type="text" id="form3Example8" class="form-control form-control-lg" name="name" required pattern="[A-Z a-z]{4,}"/>
                   <label class="form-label" for="form3Example8">Name</label>
                 </div>                
                   
@@ -106,22 +110,20 @@ top: 13px;
                   <label class="form-label" for="form3Example97">Email ID</label>
                 </div>
 
-
                 <div class="form-outline mb-4">
                   <input type="password" id="form3Example99" class="form-control form-control-lg"  name="pwd" required/>
                   <label class="form-label" for="form3Example99">Password</label>
                 </div>
+                 <div class="mb-1 pb-lg-2" style="color: #393f81; align: left">Existing account? <a href="{% url 'signin' %}" style="color: #393f81;" class="btn-outline-info">Login here</a></div>
 
-               
                 <div class="d-flex justify-content-end pt-3">
-                    <div class="mb-1 pb-lg-2" style="color: #393f81;">Existing account? <a href="{% url 'signin' %}" style="color: #393f81;">Login here</a></div>
-
+                    <div align="center">
                   <input type="reset" class="btn btn-light btn-lg" value="Reset"> </input>
 <!--                  <input type="submit" class="btn btn-warning btn-lg ms-2" value="Register"></input>-->
 
                     <input type="submit" class="btn btn-danger btn-lg ms-2" value="Register" style="width: 98px; height:45px"></input>
 
-
+                    </div>
                      </div>
 
                    </div>

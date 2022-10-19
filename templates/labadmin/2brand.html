@@ -1,36 +1,47 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-<style type="text/css">
-#category {
-	font-size: medium;
-}
-</style>
-</head>
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
+<!--<title>Untitled Document</title>-->
+<!--<style type="text/css">-->
+<!--#category {-->
+<!--	font-size: medium;-->
+<!--}-->
+<!--</style>-->
+<!--</head>-->
 
-<body>
+<!--<body>-->
+
+{% include "admin_header.html" %}
+
 
 <form method="post" action="{% url 'getbrand' %}" method="post">
 
                    {% csrf_token %}
-<div align="right"><input name="brand" type="text" id="brand" align="right" /><input  type="submit" value="Add new" required/></div>
+<div align="center"><input name="brand" type="text" id="brand"  style="height: 37px; width: 300px " required pattern="[A-z]{3,}"/>&nbsp;
+    <input  type="submit" value="Add new" class="btn-hover color-7"  /></div>
   <div align="center">
 
+ <div class="row m-t-30">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE-->
+                                <div class="table-data3">
 
-    <table width="360" height="190" border="1">
+
+    <table border=""  class="display" width="1000" height="500" class="table-primary">
+<thead>
 
       <tr>
-        <td width="73" height="69">Sl. No</td>
-        <td width="185">Brand</td><td></td>
+        <th width="" height="69">Sl. No</th>
+        <th width="">Brand</th><th></th>
       </tr>
+</thead>
       {% for x in brnd %}
       <tr>
         <td>{{forloop.counter}}
          </td>
         <td>{{ x.name }} </td>
-        <td><a href="{% url 'deletebrand' x.id %}">Delete</a> </td>
+        <td><a href="{% url 'deletebrand' x.id %}" class="btn btn-danger"  onclick="return confirm('Are you sure?')" >Delete</a> </td>
       </tr>
        {% endfor %}
 
@@ -38,6 +49,7 @@
   </div>
 
 </form>
+{% include "admin_footer.html" %}
 
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->

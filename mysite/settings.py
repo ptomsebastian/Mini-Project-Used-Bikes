@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'used',
+        'NAME': 'gk_bikes',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
@@ -146,6 +146,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# LOGIN_URL = '/signin'
+
+RAZOR_KEY_ID = 'rzp_test_RSZJtMVZELUXuf'
+RAZOR_KEY_SECRET = 'cJj9zs9Z50Zspr7pBUjr4MLX'
 
 
 # Default primary key field type

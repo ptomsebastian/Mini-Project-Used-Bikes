@@ -4,8 +4,10 @@ from . import views
 from .views import getvehicleinfo
 urlpatterns = [
      path('', views.index, name='index'),
-     path('login', views.login, name='login'),
+     path('login_user', views.login_user, name='login_user'),
      path('signup', views.signup, name='signup'),
+     path('gk_logout', views.gk_logout, name='gk_logout'),
+
      path('vehicle', views.vehicle_management, name='vehicle_management'),
      path('home', views.home_page_management, name='home_page_management'),
      path('book', views.book_management, name='book_management'),

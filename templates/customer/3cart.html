@@ -1,68 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-<style type="text/css">
-#category {
-	font-size: medium;
-}
-</style>
-</head>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
+<!--<title>Untitled Document</title>-->
+<!--<style type="text/css">-->
+<!--#category {-->
+<!--	font-size: medium;-->
+<!--}-->
+<!--</style>-->
+<!--</head>-->
 
-<body>
+<!--<body>-->
+{% include "customer_header.html" %}
 
-<form method="post" action="{% url 'cart'  %}" method="post">
+<form method="post" action="" method="post">
   {% csrf_token %}
 
-  <div align="center">
+ <div class="row m-t-30" align="center">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE-->
+                                <div class="table-data3">
 
 
-    <table width="360" height="190" border="1">
+    <table border=""  class="display" width="1100" height="440" class="table-primary">
+<thead>
 
       <tr>
-        <td width="73" height="69">Sl. No</td>
-          <td width="185">Image 1</td>
-        <td width="185">Vehicle Name</td>
-          <td width="185">Brand</td>
-        <td width="185">Year</td>
-         <td width="185">CC</td>
-        <td width="185">Price</td>
+        <th width="73" height="69">Sl. No</th>
+          <th width="185">Image 1</th>
+        <th width="185">Vehicle Name</th>
+          <th width="185">Brand</th>
 
-          <td width="185"><div align="center"></div></td>
+         <th width="185">Kilometer</th>
+
+        <th width="185">Year</th>
+         <th width="185">CC</th>
+        <th width="185">Price</th>
+
+          <th width="185"><div align="center"></div></th>
 
       </tr>
+</thead>
+ {% for i in crt %}
 
-
-
-{% for x in vehicles %}
 
       <tr>
          <td>{{forloop.counter}}</td>
-        <td><img src="/media/{{ x.image1 }}"  width="100" height="100" /></td>
-          <td> {% for i in vname %} {% if i.id == x.vehiclename_id_id %}  {{ i.name }}  {% endif %} {% endfor %} </td>
-        <td>{% for i in vname %} {% for br in brnd %}  {% if br.id == i.brand_id %} {% if i.id == x.vehiclename_id_id %}  {{ br.name }} {% endif %} {% endif %} {% endfor %} {% endfor %} </td>
+<!--        <td><img src="/media/{{ x.image1 }}"  width="100" height="100" /></td>-->
+          <td> <img class="" src="/media/{{ i.vehicle.image1 }}"   style="width:300px" alt=""> </td>
+          <td>  {% for j in vehi2 %} {% for k in vname %} {% if k.id == j.vehiclename_id_id %} {% if j.id == i.vehicle_id %} <a href="{% url 'viewmorevehicledetails' j.id %}"class="btn-hover color-8" style="width: 105pt"> {{ k.name }} </a> {% endif %} {% endif %} {% endfor %} {% endfor %}  </td>
+          </td>
+          <td>
+          {% for m in brnd %}
+                    {% for k in vname %}
+                         {% for p in vehi2 %}
+                                  {% if m.id == k.brand_id %}
+                                      {% if k.id == p.vehiclename_id_id %}
+                                          {% if p.id == i.vehicle_id %}
+                                             {{ m.name }}
+                                           {% endif %}
+                                       {% endif %}
+                                    {% endif %}
 
-        <td>{{ x.year }} </td>
-        <td>{{ x.cc }} </td>
-        <td>{{ x.price }} </td>
-        <td><a href="">Delete</a> <a href="">Book</a> </td>
+                         {% endfor %}
+                    {% endfor %}
+                 {% endfor %}
+                                 </td>
+          <TD>{{ i.vehicle.km }}</TD>
+          <TD>{{ i.vehicle.year }}</TD>
+          <TD>{{ i.vehicle.cc }}</TD>
+          <TD>{{ i.vehicle.price }}</TD>
+
+<!--          </td>PLACE FOR KM</td>   -->
+
+
+          <td><a href="{% url 'deletefromcart' i.id %}" onclick="return confirm('Are you sure that you want to delete ?')" class="btn-hover color-10" style="width: 100px">Delete</a> <a href="{% url 'home' %}" onclick="return confirm('Are you sure that you want to book ?')" class="btn-hover color-5" style="width: 100px" >Book</a> </td>
+
+<!--        <td>{% for i in vname %} {% for br in brnd %}  {% if br.id == i.brand_id %} {% if i.id == x.vehiclename_id_id %}  {{ br.name }} {% endif %} {% endif %} {% endfor %} {% endfor %} </td>-->
+
       </tr>
+
 {% endfor %}
 
+
   </table>
+
+
+
   </div>
+                            </div></div>
 
 </form>
 
-</body>
-</html></title>
-</head>
-<body>
+{% include "admin_footer.html" %}
+<!--</body>-->
+<!--</html></title>-->
+<!--</head>-->
+<!--<body>-->
 
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->

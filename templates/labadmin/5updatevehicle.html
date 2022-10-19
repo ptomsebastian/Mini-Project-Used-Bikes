@@ -1,170 +1,226 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-<style type="text/css">
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
+<!--<title>Untitled Document</title>-->
+<!--<style type="text/css">-->
+<!--/* The switch - the box around the slider */-->
+<!--.switch {-->
+<!--  position: relative;-->
+<!--  display: inline-block;-->
+<!--  width: 60px;-->
+<!--  height: 34px;-->
+<!--}-->
 
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+<!--/* Hide default HTML checkbox */-->
+<!--.switch input {-->
+<!--  opacity: 0;-->
+<!--  width: 0;-->
+<!--  height: 0;-->
+<!--}-->
 
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+<!--/* The slider */-->
+<!--.slider {-->
+<!--  position: absolute;-->
+<!--  cursor: pointer;-->
+<!--  top: 0;-->
+<!--  left: 0;-->
+<!--  right: 0;-->
+<!--  bottom: 0;-->
+<!--  background-color: #ccc;-->
+<!--  -webkit-transition: .4s;-->
+<!--  transition: .4s;-->
+<!--}-->
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+<!--.slider:before {-->
+<!--  position: absolute;-->
+<!--  content: "";-->
+<!--  height: 26px;-->
+<!--  width: 26px;-->
+<!--  left: 4px;-->
+<!--  bottom: 4px;-->
+<!--  background-color: white;-->
+<!--  -webkit-transition: .4s;-->
+<!--  transition: .4s;-->
+<!--}-->
 
-input:checked + .slider {
-  background-color: #2196F3;
-}
+<!--input:checked + .slider {-->
+<!--  background-color: #2196F3;-->
+<!--}-->
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
+<!--input:focus + .slider {-->
+<!--  box-shadow: 0 0 1px #2196F3;-->
+<!--}-->
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
+<!--input:checked + .slider:before {-->
+<!--  -webkit-transform: translateX(26px);-->
+<!--  -ms-transform: translateX(26px);-->
+<!--  transform: translateX(26px);-->
+<!--}-->
 
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
+<!--/* Rounded sliders */-->
+<!--.slider.round {-->
+<!--  border-radius: 34px;-->
+<!--}-->
 
-.slider.round:before {
-  border-radius: 50%;
-}
-</style>
-</head>
+<!--.slider.round:before {-->
+<!--  border-radius: 50%;-->
+<!--}-->
+<!--</style>-->
+<!--</head>-->
 
-<body>
+<!--<body>-->
 
-<form action="{% url 'updatevehicle' %}" method="post">
+{% include "admin_header.html" %}
+
+<div class="main" align="center">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+
+                         <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Update Vehicle</strong>
+                                    </div>
+                                    <div class="card-body card-block">
+
+<form action="{% url 'updatevehicle' %}" method="post" class="form-horizontal" enctype='multipart/form-data'>
                    {% csrf_token %}
-<div align="center">
-  <table width="504" border="1">
+                                         <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="" class=" form-control-label">Vehicle Number</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+          <input type="text" name="vnum" id="vnum" value="{{ veh.vehiclenumber }}" class="form-control" required pattern="^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$"/>
+
+                     </div></div>
 
 
-    <tr>
-      <td width="172" height="53">Vehicle Number</td>
-      <td width="316"><label for="vnum"></label>
-        <div align="center">
-          <input type="text" name="vnum" id="vnum" value="{{ veh.vehiclenumber }}"/>
-        </div></td>
-      </tr>
 
-     <tr>
-      <td width="172" height="53">VIN</td>
-      <td width="316"><label for="vin"></label>
-        <div align="center">
-          <input type="text" name="vin" id="vin" value="{{ veh.vin }}"/>
-        </div></td>
-      </tr>
-
-    <tr>
-      <td width="172" height="53">CC</td>
-      <td width="316"><label for="cc"></label>
-        <div align="center">
-          <input type="text" name="cc" id="cc" value="{{ veh.cc }}"/>
-        </div></td>
-      </tr>
-
-      <tr>
-      <td width="172" height="53">Year</td>
-      <td width="316"><label for="year"></label>
-        <div align="center">
-          <input type="text" name="year" id="year" value="{{ veh.year }}"/>
-        </div></td>
-      </tr>
+                                         <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="" class=" form-control-label">KM</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+          <input type="text" name="km" id="km" value="{{ veh.km }}" class="form-control" required pattern="[0-9]{1,}"/>
+                     </div></div>
 
 
-    <tr>
-      <td>Description</td>
-      <td><label for="description"></label>
-        <div align="center">
-          <textarea name="description" id="description" cols="45" rows="5"> {{ veh.des }} </textarea>
-        </div></td>
-      </tr>
 
-    <tr>
-      <td height="49">Price</td>
-      <td><label for="price"></label>
-        <div align="center">
-        <input type="text" name="price" id="price" value="{{ veh.price }}"/> </div></td>
+                      <div class="row form-group">
+                        <div class="col col-md-3">
+<label for="" class=" form-control-label">VIN</label>
+                        </div>
+                      <div class="col-12 col-md-9">
+          <input type="text" name="vin" id="vin" value="{{ veh.vin }}" class="form-control" required pattern="[A-Z 0-9]{17}"/>
+                     </div></div>
 
-      </tr>
 
-    <tr>
-      <td height="49">Image 1</td>
-      <td><label for="image1"></label>
-        <div align="center">
+
+
+                        <div class="row form-group">
+                        <div class="col col-md-3">
+<label for="cc" class=" form-control-label">CC</label>
+                           </div>
+         <div class="col-12 col-md-9">
+          <input type="text" name="cc" id="cc" value="{{ veh.cc }}" class="form-control" min="0" required pattern="[0-9]{2,4}"/>
+                     </div></div>
+
+     <div class="row form-group">
+           <div class="col col-md-3">
+<label for="year" class=" form-control-label">Year</label>
+             </div>
+ <div class="col-12 col-md-9">
+          <input type="text" name="year" id="year" value="{{ veh.year }}" class="form-control" min="0" required pattern="[0-9]{4}"/>
+                     </div></div>
+
+
+
+                                           <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="" class=" form-control-label">Colour</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+          <input type="text" name="colour" id="colour" value="{{ veh.colour }}" class="form-control" required pattern="[A-z]{3,}"/>
+                     </div></div>
+
+
+
+     <div class="row form-group">
+           <div class="col col-md-3">
+<label for="description" class=" form-control-label"></label>
+</div>
+        <div class="col-12 col-md-9">
+          <textarea name="description" id="description" cols="45" rows="5" class="form-control" required> {{ veh.des }} </textarea>
+                     </div></div>
+
+
+
+     <div class="row form-group">
+           <div class="col col-md-3">
+             <label for="price" class=" form-control-label">Price</label>
+             </div>
+<div class="col-12 col-md-9">
+        <input type="text" name="price" id="price" value="{{ veh.price }}" class="form-control" min="0" required pattern="[0-9]{5,}"/>
+                     </div></div>&nbsp;
+
+
+
+     <div class="row form-group">
+           <div class="col col-md-3">
+             <label for="image1" class=" form-control-label">Image 1</label>
+ </div>
+       <div class="col-12 col-md-9">
             {{ form.as_p }}
           <img src="/media/{{ veh.image1 }}"  width="100" height="100" />
-        <input type="file" name="image1" id="image1" required /></div></td>
-      </tr>
+       &nbsp; <input type="file" name="image1" id="image1"  class="image" />
+                     </div></div>&nbsp;
 
-    <tr>
-      <td height="49">Image 2</td>
-      <td><label for="image2"></label>
-        <div align="center">
+
+
+     <div class="row form-group">
+           <div class="col col-md-3">
+             <label for="image2" class=" form-control-label">Image 2</label>
+           </div>
+                    <div class="col-12 col-md-9">
           {{ form.as_p }}
-          <img src="/media/{{ veh.image2 }}"  width="100" height="100" />
-        <input type="file" name="image2" id="image2" required/></div> </td>
-      </tr>
 
-     <tr>
-      <td height="49">Image 3</td>
-      <td><label for="image3"></label>
-        <div align="center">
+          <img src="/media/{{ veh.image2 }}"  width="100" height="100" />
+       &nbsp; <input type="file" name="image2" id="image2" class="image" />
+                     </div></div>&nbsp;
+
+
+
+     <div class="row form-group">
+           <div class="col col-md-3">
+             <label for="image3" class=" form-control-label">Image 3</label>
+
+           </div>
+              <div class="col-12 col-md-9">
             {{ form.as_p }}
           <img src="/media/{{ veh.image3 }}"  width="100" height="100" />
-        <input type="file" name="image3" id="image3" required/></div></td>
-      </tr>
+        &nbsp;<input type="file" name="image3" id="image3" class="image "/>
+                     </div></div>
 
+&nbsp;
 
-
-    <tr>
-      <td height="46" colspan="2"><div align="center">
-        <input type="submit" name="addtest2" id="addtest" value="Update" />
-      </div></td>
-      </tr>
-  </table>
+                                          <div>
+                                    <div  align="center">
+        <input type="submit" name="addtest2" id="addtest" value="Update" class="btn-hover color-7"/>
+                                    </div>
 </div>
 <div align="center"></div>
 <div align="center"></div>
+&nbsp;
+                    </form>
 
-</form>
-</body>
-</html>
+
+                     </div>
+        </div>
+
+    </div>
+
+
+{% include "admin_footer.html" %}
+<!--</body>-->
+<!--</html>-->
