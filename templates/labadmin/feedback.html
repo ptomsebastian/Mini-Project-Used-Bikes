@@ -1,0 +1,200 @@
+{% include "admin_header.html" %}
+
+<div class="row">
+                            <div class="col-md-12" >
+                                <!-- DATA TABLE -->
+                                <h3 align="center" class="title-5 m-b-35"><b><i>FEEDBACK / ENQUIRY</i></b></h3>
+                                <div class="table">
+                                    <div class="table-data__tool-left" >
+<!--                                        <div class="rs-select2&#45;&#45;light rs-select2&#45;&#45;md">-->
+<!--&lt;!&ndash;                                            <select class="js-select2" name="property">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <option selected="selected">All Properties</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <option value="">Option 1</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <option value="">Option 2</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </select>&ndash;&gt;-->
+<!--                                            <div class="dropDownSelect2"></div>-->
+<!--                                        </div>-->
+<!--                                        <div class="rs-select2&#45;&#45;light rs-select2&#45;&#45;sm">-->
+<!--&lt;!&ndash;                                            <select class="js-select2" name="time">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <option selected="selected">Today</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <option value="">3 Days</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <option value="">1 Week</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </select>&ndash;&gt;-->
+<!--                                            <div class="dropDownSelect2"></div>-->
+<!--                                        </div>-->
+<!--                                        <button class="au-btn-filter">-->
+<!--&lt;!&ndash;                                            <i class="zmdi zmdi-filter-list"></i>filters</button>&ndash;&gt;-->
+<!--                                    </div>-->
+<!--                                    <div class="table-data__tool-right">-->
+<!--&lt;!&ndash;                                        <button class="au-btn au-btn-icon au-btn&#45;&#45;green au-btn&#45;&#45;small">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <i class="zmdi zmdi-plus"></i>add item</button>&ndash;&gt;-->
+<!--                                        <div class="rs-select2&#45;&#45;dark rs-select2&#45;&#45;sm rs-select2&#45;&#45;dark2">-->
+<!--&lt;!&ndash;                                            <select class="js-select2" name="type">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <option selected="selected">Export</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <option value="">Option 1</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                <option value="">Option 2</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </select>&ndash;&gt;-->
+<!--                                            <div class="dropDownSelect2"></div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                                <div class="table-data3">
+                                    <table class="display"  style="width:100%" border="1"  class="table-primary" >
+                                        <thead>
+                                            <tr>
+                                                <th>Sl. No</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Subject</th>
+
+                                                <th>Message</th>
+                                                 <th>date</th>
+<!--                                                <th>price</th>-->
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for i in fdbk %}
+                                            <tr >
+                                                <td>{{forloop.counter}}</td>
+                                                <td>{{ i.name }}</td>
+                                                <td><span class="email">{{ i.email }}</span>
+                                                </td>
+                                                <td class="desc">{{ i.subject }}</td>
+
+                                                <td>
+                                                    <span class="status--process">{{ i.message }}</span>
+                                                </td>
+                                                <td>{{ i.created_at }}</td>
+<!--                                                <td>$679.00</td>-->
+                                                <td>
+                                                    <div class="table-data-feature">
+                                                        <a class="item" data-toggle="tooltip" data-placement="top" title="Reply" href="{% url 'gotoreplyform' i.id %}">
+                                                            <i class="zmdi zmdi-mail-reply"></i>
+                                                        </a>
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">-->
+<!--                                                            <i class="zmdi zmdi-edit"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">-->
+<!--                                                            <i class="zmdi zmdi-delete"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">-->
+<!--                                                            <i class="zmdi zmdi-more"></i>-->
+<!--                                                        </button>-->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+<!--                                            <tr class="spacer"></tr>-->
+<!--                                            <tr class="tr-shadow">-->
+<!--                                                <td>-->
+<!--                                                    <label class="au-checkbox">-->
+<!--                                                        <input type="checkbox">-->
+<!--                                                        <span class="au-checkmark"></span>-->
+<!--                                                    </label>-->
+<!--                                                </td>-->
+<!--                                                <td>Lori Lynch</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="block-email">john@example.com</span>-->
+<!--                                                </td>-->
+<!--                                                <td class="desc">iPhone X 64Gb Grey</td>-->
+<!--                                                <td>2018-09-29 05:57</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="status&#45;&#45;process">Processed</span>-->
+<!--                                                </td>-->
+<!--                                                <td>$999.00</td>-->
+<!--                                                <td>-->
+<!--                                                    <div class="table-data-feature">-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">-->
+<!--                                                            <i class="zmdi zmdi-mail-send"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">-->
+<!--                                                            <i class="zmdi zmdi-edit"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">-->
+<!--                                                            <i class="zmdi zmdi-delete"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">-->
+<!--                                                            <i class="zmdi zmdi-more"></i>-->
+<!--                                                        </button>-->
+<!--                                                    </div>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                            <tr class="spacer"></tr>-->
+<!--                                            <tr class="tr-shadow">-->
+<!--                                                <td>-->
+<!--                                                    <label class="au-checkbox">-->
+<!--                                                        <input type="checkbox">-->
+<!--                                                        <span class="au-checkmark"></span>-->
+<!--                                                    </label>-->
+<!--                                                </td>-->
+<!--                                                <td>Lori Lynch</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="block-email">lyn@example.com</span>-->
+<!--                                                </td>-->
+<!--                                                <td class="desc">iPhone X 256Gb Black</td>-->
+<!--                                                <td>2018-09-25 19:03</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="status&#45;&#45;denied">Denied</span>-->
+<!--                                                </td>-->
+<!--                                                <td>$1199.00</td>-->
+<!--                                                <td>-->
+<!--                                                    <div class="table-data-feature">-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">-->
+<!--                                                            <i class="zmdi zmdi-mail-send"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">-->
+<!--                                                            <i class="zmdi zmdi-edit"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">-->
+<!--                                                            <i class="zmdi zmdi-delete"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">-->
+<!--                                                            <i class="zmdi zmdi-more"></i>-->
+<!--                                                        </button>-->
+<!--                                                    </div>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                            <tr class="spacer"></tr>-->
+<!--                                            <tr class="tr-shadow">-->
+<!--                                                <td>-->
+<!--                                                    <label class="au-checkbox">-->
+<!--                                                        <input type="checkbox">-->
+<!--                                                        <span class="au-checkmark"></span>-->
+<!--                                                    </label>-->
+<!--                                                </td>-->
+<!--                                                <td>Lori Lynch</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="block-email">doe@example.com</span>-->
+<!--                                                </td>-->
+<!--                                                <td class="desc">Camera C430W 4k</td>-->
+<!--                                                <td>2018-09-24 19:10</td>-->
+<!--                                                <td>-->
+<!--                                                    <span class="status&#45;&#45;process">Processed</span>-->
+<!--                                                </td>-->
+<!--                                                <td>$699.00</td>-->
+<!--                                                <td>-->
+<!--                                                    <div class="table-data-feature">-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">-->
+<!--                                                            <i class="zmdi zmdi-mail-send"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">-->
+<!--                                                            <i class="zmdi zmdi-edit"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">-->
+<!--                                                            <i class="zmdi zmdi-delete"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">-->
+<!--                                                            <i class="zmdi zmdi-more"></i>-->
+<!--                                                        </button>-->
+<!--                                                    </div>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- END DATA TABLE -->
+                            </div>
+                        </div>
+
+{% include "admin_footer.html" %}

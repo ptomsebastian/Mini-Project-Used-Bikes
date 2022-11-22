@@ -1,0 +1,57 @@
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
+<!--<title>Untitled Document</title>-->
+<!--<style type="text/css">-->
+<!--#category {-->
+<!--	font-size: medium;-->
+<!--}-->
+<!--</style>-->
+<!--</head>-->
+
+<!--<body>-->
+
+{% include "admin_header.html" %}
+
+
+<form method="post" action="{% url 'get_homeimage' %}" method="post" enctype='multipart/form-data'>
+
+                   {% csrf_token %}
+<div align="center">
+
+        <input type="file" name="image" id="image" class="image" required/>
+
+    <input  type="submit" value="Add" class="btn-hover color-7"  /></div>
+
+  <div align="center">
+
+ <div class="row m-t-30">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE-->
+                                <div class="table-data3">
+     <table border=""  class="display" width="1000" height="500" class="table-primary">
+<thead>
+
+      <tr align="center">
+        <th width="110" height="69">Sl. No</th>
+        <th width="">Image</th>
+          <th width="200"></th>
+
+      </tr>
+</thead>
+
+          {% for x in home %}
+
+         <tr>
+        <td>{{forloop.counter}}</td>
+       <td><img src="/media/{{ x.image }}"  width="300" height="200" /></td>
+    <td><a href="{% url 'deletehomeimage' x.id %}" class="btn btn-outline-danger" style="width: 100px" onclick="return confirm('Are you sure that you want to delete?')">Delete</a></td>
+
+{% endfor %}
+</div>
+</form>
+{% include "admin_footer.html" %}
+
+<!--</body>-->
+<!--</html>-->

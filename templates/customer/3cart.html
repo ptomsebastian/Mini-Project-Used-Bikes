@@ -78,7 +78,7 @@
 <!--          </td>PLACE FOR KM</td>   -->
 
 
-          <td><a href="{% url 'deletefromcart' i.id %}" onclick="return confirm('Are you sure that you want to delete ?')" class="btn-hover color-10" style="width: 100px">Delete</a> <a href="{% url 'home' %}" onclick="return confirm('Are you sure that you want to book ?')" class="btn-hover color-5" style="width: 100px" >Book</a> </td>
+          <td><a href="{% url 'deletefromcart' i.id %}" onclick="return confirm('Are you sure that you want to delete ?')" class="btn-hover color-10" style="width: 100px">Delete</a> <a href="{% url 'vbook2' i.id %}" onclick="return confirm('Are you sure that you want to book ?')" class="btn-hover color-5" style="width: 100px" >Book</a> </td>
 
 <!--        <td>{% for i in vname %} {% for br in brnd %}  {% if br.id == i.brand_id %} {% if i.id == x.vehiclename_id_id %}  {{ br.name }} {% endif %} {% endif %} {% endfor %} {% endfor %} </td>-->
 

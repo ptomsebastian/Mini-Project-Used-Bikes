@@ -33,7 +33,11 @@
 
 
        <link href="{% static 'css/button2.css'  %}" rel ="stylesheet">
+              <link href="{% static 'css/slider-container.css'  %}" rel ="stylesheet">
+<!--<link href="{% static 'css/gala.css'  %}" rel ="stylesheet">-->
+
    </head>
+
 
    <!-- body -->
    <body class="main-layout">
@@ -265,13 +269,13 @@
       </section>
       <!-- end section -->
 
-       <!-- section -->
+<!--&lt;!&ndash;        section&ndash;&gt;-->
 <!--      <section id="testimonial" class="dark_bg_orange layout_padding cross_layout_o padding_top_0">-->
 <!--        <div class="container">-->
 <!--           <div class="row">-->
 <!--             <div class="col-md-12">-->
 <!--               <div class="full center">-->
-<!--                 <h2 class="heading_main orange_heading">Testimonials</h2>-->
+<!--                 <h2 class="heading_main orange_heading">Gallery</h2>-->
 <!--               </div>-->
 <!--             </div>-->
 <!--           </div>-->
@@ -290,15 +294,15 @@
 <!--                        <div class="carousel-item active">-->
 <!--                           <div class="testomonial_section">-->
 <!--                              <div class="full center">-->
-<!--                                <div class="client_img">-->
-<!--                                  <img src="{% static 'images/testimonial.png' %}" alt="#" />-->
-<!--                                </div>-->
+<!--&lt;!&ndash;                                <div class="client_img">&ndash;&gt;-->
+<!--&lt;!&ndash;                                  <img src="{% static 'images/testimonial.png' %}" alt="#" />&ndash;&gt;-->
+<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
 <!--                              </div>-->
 <!--                              <div class="full testimonial_cont text_align_center">-->
 <!--                                <p><strong>Due markes</strong><br><strong class="ornage_color">Rental</strong><br><i>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit ess</i></p>-->
-<!--                                <div class="full text_align_center margin_top_30">-->
-<!--                                   <img src="{% static 'images/testimonial_qoute.png' %}">-->
-<!--                                </div>-->
+<!--&lt;!&ndash;                                <div class="full text_align_center margin_top_30">&ndash;&gt;-->
+<!--&lt;!&ndash;                                   <img src="{% static 'images/testimonial_qoute.png' %}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
 <!--                              </div>-->
 <!--                            </div>-->
 <!--                        </div>-->
@@ -347,9 +351,105 @@
 <!--           </div>-->
 <!--        </div>-->
 <!--      </section>-->
-      <!-- end section -->
+<!--&lt;!&ndash;       end section&ndash;&gt;-->
 
-      <!-- section -->
+<!--&lt;!&ndash;       section&ndash;&gt;-->
+
+
+
+
+
+<div id="gal"></div>
+                <section id="testimonial" class="dark_bg_orange layout_padding cross_layout_o padding_top_0">
+        <div class="container">
+           <div class="row">
+             <div class="col-md-12">
+               <div class="full center">
+
+                 <h2 class="heading_main orange_heading">Gallery</h2>
+               </div>
+  <form method="post" action="{% url 'get_homeimage' %}" method="post" enctype='multipart/form-data'>
+                        {% csrf_token %}
+                  </form>
+<!--    <div class="slide-container">-->
+<!--        <span class="slider-span" id="slider-span1"></span>-->
+<!--        <span class="slider-span" id="slider-span2"></span>-->
+<!--        <span class="slider-span" id="slider-span3"></span>-->
+
+
+
+    <head>
+
+
+
+       <style>
+	.container{
+		width: 100%;
+		padding: 20px;
+		/*margin: 100px auto;*/
+		/*display: flex;*/
+		flex-direction: row;
+		justify-content: center;
+	}
+
+
+	.box{
+		width: 250px;
+		margin: 0 10px;
+		box-shadow: 0 0 20px 2px rgba(0, 0, 0, .1);
+		transition: 1s;
+
+	}
+	.box img{
+		display: block;
+		width:100%;
+		border-radius: 5px;
+	}
+	.box:hover{
+		transform: scale(2.5);
+		z-index: 2;
+	}
+	</style>
+
+   </head>
+
+        <div class="">
+<!--            <div class="slides-div" id="slide-3">-->
+                {% for x in home %}
+                <img src="/media/{{ x.image }}" alt="" class="box" id="img2" />
+<!--                <a href="#slider-span1" class="button" id="button-2"></a>-->
+                {% endfor %}
+            </div>
+
+<!--            <div class="slides-div" id="slide-2">-->
+<!--                <img src="{% static 'images/b1.png' %}"  alt="" class="img" id="img2">-->
+<!--                <a href="#slider-span2" class="button" id="button-2"></a>-->
+<!--            </div>-->
+<!--            <div class="slides-div" id="slide-3">-->
+<!--                <img src="{% static 'images/b2.png' %}"  alt="" class="img" id="img3">-->
+<!--                <a href="#slider-span3" class="button" id="button-3"></a>-->
+<!--            </div>-->
+
+
+
+        </div>
+    </div>
+
+
+
+             </div>
+           </div>
+           </div>
+            </section>
+      </div>
+
+
+
+
+
+
+
+
       <section id="contact" class="dark_bg_blue layout_padding cross_layout padding_top_0 margin_top_0">
         <div class="container">
            <div class="row">
@@ -365,26 +465,28 @@
 
                     <div class="contact_form">
 
-                        <form>
+                        <form action="{% url 'usersendmsg' %}" method="post">
+                             {% csrf_token %}
                           <fieldset class="row">
                             <div class="col-md-12">
                             <div class="full field">
-                              <input type="text" placeholder="Your Name" name="name" />
+                                <h1 align="center"><b><i>ENQUIRY</i></b></h1>
+                              <input type="text" placeholder="Your Name" name="name" required pattern="[A-z A-Z]{3,}"/>
                             </div>
                           </div>
                           <div class="col-md-12">
                             <div class="full field">
-                              <input type="email" placeholder="Email" name="email" />
+                              <input type="email" placeholder="Email" name="email" required/>
                             </div>
                           </div>
                             <div class="col-md-12">
                             <div class="full field">
-                              <input type="text" placeholder="Phone" name="number" />
+                              <input type="text" name="subject" id="subject" placeholder="Subject" required pattern="[A-z A-Z]{2,}"/>
                             </div>
                           </div>
                             <div class="col-md-12">
                             <div class="full field">
-                              <textarea placeholder="Message"></textarea>
+                              <textarea name="message" placeholder="Message" required/></textarea>
                             </div>
                           </div>
                           <div class="col-md-12">
@@ -472,9 +574,10 @@
                    <h4 class="widget_heading">Useful Links</h4>
                  </div>
                  <div class="full f_menu">
-                    <ul>
+
+                     <ul>
                        <li><div id="#top"><a href="#">Home</a></div></li>
-                       <li><a href="#">Testimonial</a></li>
+                       <li><a href="#gal">Gallery</a></li>
                         <li><div><a href="https://www.google.com/maps/dir//GK+Motors,+Karassery+junction,+Tazhakkod,+Kerala+673602/@11.315902,75.998073,14z/data=!4m9!4m8!1m0!1m5!1m1!1s0x3ba6417c7c8117ad:0xe096ecb445c0835f!2m2!1d75.9980549!2d11.3158879!3e0?hl=en" target=”_blank”>Location</a></div></li>
                     </ul>
 

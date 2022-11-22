@@ -10,7 +10,11 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 #from.models import Patient,Slot,Customer,User,Appointment,Category,Feedback,Home,Info,Order,Payment,Result,Test
 from .forms import VehicleForm
-from.models import User,Brand,Vehiclename,Vehicle,Customer
+from.models import User,Brand,Vehiclename,Vehicle,Customer,Feedback,Info,Booking
+from django.conf import settings
+from django.core.mail import send_mail
+import smtplib
+
 
 User = get_user_model()
 
@@ -18,7 +22,9 @@ User = get_user_model()
 
 
 def index(request):
-    return render(request, 'index.html')
+    home = Info.objects.all().values()
+    context = {'home': home}
+    return render(request, 'index.html',context)
 
 def signin(request):
     return render(request, '1login.html')
@@ -50,13 +56,44 @@ def vehicle_management(request):
     return render(request, 'labadmin/6vehicle manage.html',context)
 
 def home_page_management(request):
-    return HttpResponse("success")
+    home = Info.objects.all().values()
+    context = {'home': home}
+    return render(request, 'labadmin/8homepageinfo.html', context)
+
+def get_homeimage(request):
+    img = request.FILES['image']
+    print(img)
+    print("hai")
+    b = Info()
+    b.image=img
+    b.title = "BBB"
+    b.content = "VVV"
+    b.save()
+    url = '/home'
+    resp_body = '<script>alert("Home image added");\
+                            window.location="%s"</script>' % url
+    return HttpResponse(resp_body)
+    return redirect('home_page_management')
+
+def deletehomeimage(request,hid):
+    entry = Info.objects.get(id=hid)
+    print(entry)
+    entry.delete()
+    return redirect('home_page_management')
+
+
 
 def book_management(request):
-    return HttpResponse("success")
+    custid = request.session['uid']
+    bk = Booking.objects.all().order_by('-id')
+    cus = Customer.objects.filter(id=custid)
+    context = {'bk': bk, 'cus': cus}
+    return render(request, 'labadmin/9booking.html', context)
 
-def feedback_management(request):
-    return HttpResponse("success")
+
+# def feedback_management(request):
+#     return HttpResponse("success")
+
 
 def business_report(request):
     return HttpResponse("success")
@@ -212,30 +249,39 @@ def getvehicleinfo(request):
     #form = VehicleForm(request.POST, request.FILES)
     # if form.is_valid():
     #     form.save()
+    vh=Vehicle.objects.filter(vehiclenumber=vnum)
+    if len(vh)==0:
+        b = Vehicle()
+        # b.brand
+        b.vehiclenumber = vnum
+        b.cc = cc
+        b.colour = colour
+        b.km = km
+        b.vin = vin
+        b.des = description
+        b.year = year
+        b.price = price
+        b.image1 = product1
+        b.image2 = product2
+        b.image3 = product3
+        b.vehiclename_id_id = vehiclename_id
+        b.save()
+        #
+        url = '/vehicle'
+        resp_body = '<script>alert("Vehicle added successfully");\
+                                window.location="%s"</script>' % url
+        return HttpResponse(resp_body)
 
-    b=Vehicle()
-    #b.brand
-    b.vehiclenumber=vnum
-    b.cc=cc
-    b.colour=colour
-    b.km=km
-    b.vin=vin
-    b.des=description
-    b.year=year
-    b.price=price
-    b.image1=product1
-    b.image2=product2
-    b.image3=product3
-    b.vehiclename_id_id=vehiclename_id
-    b.save()
-    #
-    url = '/vehicle'
-    resp_body = '<script>alert("Vehicle added successfully");\
-                            window.location="%s"</script>' % url
-    return HttpResponse(resp_body)
+    else:
+        url = '/vehicle'
+        resp_body = '<script>alert("Vehicle already exists");\
+                                          window.location="%s"</script>' % url
+        return HttpResponse(resp_body)
+
+
 
     # print(vehiclename_id,vnum,vin,cc,year,price)
-    return redirect('vehicle_management')
+    # return redirect('vehicle_management')
 
 
 
@@ -298,6 +344,8 @@ def updatevehicle(request):
 
     # print(vnum, vin, cc, year, price)
     return redirect('vehicle_management')
+
+
 
 
 
@@ -454,6 +502,82 @@ def login_user(request):
 
     # username = User.objects.get(email=email).username
     # user = authenticate(username=username, password=password)
+
+
+
+
+
+def usersendmsg(request):
+    name = request.POST['name']
+    eml = request.POST['email']
+    subject = request.POST['subject']
+    msg = request.POST['message']
+    fdbk=Feedback()
+    fdbk.name = name
+    fdbk.email = eml
+    fdbk.subject = subject
+    fdbk.message = msg
+    fdbk.reply = "pending"
+    fdbk.save()
+    url = '/'
+    resp_body = '<script>alert("Message Send Successfully");\
+                                   window.location="%s"</script>' % url
+    return HttpResponse(resp_body)
+
+
+    # return redirect('index')
+
+# def feedback_management(request):
+#     return HttpResponse("success")
+
+# def viewfeedbacks(request):
+#     fdbk=Feedback.objects.filter(reply="pending")
+#
+#     context={'fdbk':fdbk}
+
+    # return render(request,'labadmin/feedback.html',context)
+
+def feedback_management(request):
+    fdbk=Feedback.objects.filter(reply="pending")
+
+    context={'fdbk':fdbk}
+
+    return render(request,'labadmin/feedback.html',context)
+
+def gotoreplyform(request,sid):
+    request.session['senderid']=sid
+    feedbackobj=Feedback.objects.get(id=sid)
+    context={'feedbackobj':feedbackobj}
+
+    return render(request,'labadmin/replyform.html',context)
+
+
+def sendreplymail(request):
+    # print("hai")
+    sid = request.session['senderid']
+    subj= Feedback.objects.filter(id=sid).values('subject')
+
+    # sub=request.POST['subject']
+    msg = request.POST['content']
+
+    feedbackobj = Feedback.objects.get(id=sid)
+    em=feedbackobj.email
+    subj = feedbackobj.subject
+    feedbackobj.reply=msg
+    feedbackobj.save()
+
+    # subject = sub
+    message = msg
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [em,]
+    server = smtplib.SMTP_SSL('smtp.googlemail.com', 465)
+    server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+    send_mail(subj, message, email_from, recipient_list)
+
+    url = '/feedback'
+    resp_body = '<script>alert("Reply send");\
+                                       window.location="%s"</script>' % url
+    return HttpResponse(resp_body)
 
 
 

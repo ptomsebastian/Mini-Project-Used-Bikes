@@ -60,7 +60,7 @@ class Vehicle(models.Model):
 class Info(models.Model):
     title = models.CharField(max_length=20)
     content = models.CharField(max_length=60)
-    image = models.ImageField()
+    image = models.ImageField(upload_to='images/', null=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -80,9 +80,19 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+# class Feedback(models.Model):
+#     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+#     message = models.CharField(max_length=60)
+#     reply = models.CharField(max_length=60)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+
+
 class Feedback(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    message = models.CharField(max_length=60)
+    name=models.CharField(max_length=25,default='tom')
+    email=models.EmailField(max_length=254,default='ptomsebastian@gmail.com')
+    subject = models.CharField(max_length=25,default='general')
+    message = models.CharField(max_length=100)
     reply = models.CharField(max_length=60)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

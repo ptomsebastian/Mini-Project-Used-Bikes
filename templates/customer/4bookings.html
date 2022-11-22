@@ -1,62 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>View Vehicles</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-    <script src = "https://code.jquery.com/jquery-3.5.1.js"> </script>
-    <script src = "https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"> </script>
+<!--<html xmlns="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
+<!--<title>View Vehicles</title>-->
+<!--    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">-->
+<!--    <script src = "https://code.jquery.com/jquery-3.5.1.js"> </script>-->
+<!--    <script src = "https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"> </script>-->
 
-<script>
-    $(document).ready( function () {
-    $('#example').DataTable();
-} );
-</script>
-<style type="text/css">
+<!--<script>-->
+<!--    $(document).ready( function () {-->
+<!--    $('#example').DataTable();-->
+<!--} );-->
+<!--</script>-->
+<!--<style type="text/css">-->
 
-#category {
-	font-size: medium;
-}
-</style>
-</head>
+<!--#category {-->
+<!--	font-size: medium;-->
+<!--}-->
+<!--</style>-->
+<!--</head>-->
 
+{% include "datatable_bootstrap_customer_header.html" %}
 <tbody>
 
 <form method="post" action="{% url 'view_bookings'  %}" method="post">
   {% csrf_token %}
 
-  <div align="center">
+  <div class="row m-t-5" >
+                            <div class="col-md-12" >
+                                <!-- DATA TABLE-->
+                                <div class="table-data3" >
 
 
-    <table id="example" class="display"  style="width:100%" border="1">
+    <table id="example" class="display" style="width:100%" border="1">
 <thead>
-      <tr>
-          <td width="185">Booking Id</td>
-        <td width="185">Customer Name</td>
-        <td width="185">Vehicle Name</td>
-        <td width="185">Date</td>
-        <td width="185">Phone</td>
-        <td width="185">Status</td>
+      <tr align="center">
+        <th >Sl. No</th>
+         <th >Booking ID</th>
+<!--        <th >Customer Name</th>-->
+        <th >Vehicle Name</th>
+        <th >Vehicle Number</th>
+        <th >Date</th>
+<!--        <th >Phone</th>-->
+        <th >Status</th>
+
 
 
       </tr>
 </thead>
 
 
-{% for x in vehicles %}
+{% for x in bk %}
 
-      <tr>
-          <td>{{ x.bid }} </td>
-          <td> {% for i in vname %} {% if i.id == x.vehiclename_id_id %}  {{ i.name }}  {% endif %} {% endfor %} </td>
-          <td> {% for i in vname %} {% if i.id == x.vehiclename_id_id %}  {{ i.name }}  {% endif %} {% endfor %} </td>
-        <td>{{ x.Date }} </td>
+      <tr align="center">
+         <td>{{forloop.counter}}</td>
+          <td>{{ x.id }} </td>
+<!--          <td> {% for c in cus %} {{ c.name }} {% endfor %} </td>-->
+         <td>{{ x.vehicle.vehiclename_id.name }}</td>
+          <td>{{ x.vehicle.vehiclenumber }}</td>
+<!--          <td> {% for i in vh %} {{ i.vehiclenumber }} {% endfor %} </td>-->
+        <td>{{ x.created_at }} </td>
 
-        <td>{{ x.phone }} </td>
-        <td>{{ x.status }} </td>
+<!--        <td>{% for c in cus %} {{ c.phone }} {% endfor %} </td>-->
+          <td  align="center"><b>{{ x.status }} </b></td>
+<!--       <td  align="center"><a href="" onclick="return confirm('Are you sure that you want to cancel ?')" class="btn-hover color-10" style="width: 100px">Cancel</a></td>-->
 
 
       </tr>
@@ -70,9 +81,5 @@
 </form>
 
 </tbody>
-</html></title>
-</head>
-<body>
-
-</body>
-</html>
+{% include "datatable_bootstrap_footer.html" %}
+<!--</html></title>-->

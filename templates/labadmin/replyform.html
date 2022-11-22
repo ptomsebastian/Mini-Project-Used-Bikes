@@ -1,0 +1,62 @@
+{% include "admin_header.html" %}
+
+<div class="main" align="center">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+
+                        <div class="col-lg-6" >
+                                <div class="card" >
+                                    <div class="card-header">
+                                        <strong>Reply Enquiry</strong>
+                                    </div>
+                                    <div class="card-body card-block">
+                                        <form action="{% url 'sendreplymail' %}" method="post" class="form-horizontal">
+                                               {% csrf_token %}
+                                            <div class="row form-group" align="left">
+                                                <div class="col col-md-3">
+                                                    <label for="sub" class=" form-control-label">Recipient Email</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+<!--                                                    <input type="email" id="hf-email" name="hf-email" value="{{ feedbackobj.email }}" class="form-control">-->
+                                                    <h4    id="sub"><i>{{ feedbackobj.email }}</i></h4>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group" align="left">
+                                                <div class="col col-md-3">
+                                                    <label for="hf-password" class=" form-control-label">Subject</label>
+                                                </div>
+
+                                                             <div class="col-12 col-md-9">
+<!--                                                    <input type="email" id="hf-email" name="hf-email" value="{{ feedbackobj.email }}" class="form-control">-->
+                                                    <h4    id="hf-password">{{ feedbackobj.subject }}</h4>
+<!--                                                    <span class="help-block"></span>-->
+                                                </div>
+
+<!--                                                <div class="col-12 col-md-9">-->
+<!--                                                    <input type="text" id="hf-password" name="subject" placeholder="Please enter email subject" class="form-control">-->
+<!--&lt;!&ndash;                                                    <span class="help-block">Please enter email subject</span>&ndash;&gt;-->
+<!--                                                </div>-->
+                                            </div>
+                                            <div class="row form-group" align="left">
+                                                <div class="col col-md-3">
+                                                    <label for="textarea-input" class=" form-control-label">Reply</label>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <textarea name="content" id="textarea-input" rows="9" placeholder="Please enter email reply" class="form-control" required></textarea>
+<!--                                                    <span class="help-block">Please enter email content</span>-->
+                                                </div>
+                                            </div>
+
+                                         <div>
+                                    <div  align="center">
+        <input type="submit" name="addtest2" id="addtest" value="Send " class="btn-hover color-9" />
+                                    </div>
+                                    </div>
+
+ </form>
+
+
+
+     {% include "admin_footer.html" %}
