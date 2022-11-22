@@ -34,6 +34,9 @@ urlpatterns = [
      path('getvehicleinfo', views.getvehicleinfo, name='getvehicleinfo'),
      path('deletevehicle/<int:vid>/', views.deletevehicle, name='deletevehicle'),
      path('updatevehicle', views.updatevehicle, name='updatevehicle'),
+
+     path('changetosold/<int:sid>/', views.changetosold, name='changetosold'),
+
      path('gotoupdatevehiclepage/<int:vid>/', views.gotoupdatevehiclepage, name='gotoupdatevehiclepage'),
 
 

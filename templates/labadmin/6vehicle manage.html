@@ -23,14 +23,15 @@
         <th width="185">Year</th>
         <th width="185">CC</th>
 
-        <th width="185">Description</th>
+<!--        <th width="185">Description</th>-->
         <th width="185">Price</th>
 
         <th width="185">Image 1</th>
         <th width="185">Image 2</th>
          <th width="185">Image 3</th>
-        <th width="185"><div align="center">
-          <select name="brand" id="" class="btn btn-primary" >
+          <th width="185">Status</th>
+        <th width="130"><div align="center">
+          <select name="brand" id="" class="btn btn-primary">
             {% for br in brnd %}
             <option value="{{ br.id }}">{{ br.name }}</option>
             {% endfor %}
@@ -54,12 +55,20 @@
         <td>{{ x.year }} </td>
         <td>{{ x.cc }} </td>
 
-        <td>{{ x.des }} </td>
+<!--        <td>{{ x.des }} </td>-->
         <td>{{ x.price }} </td>
         <td><img src="/media/{{ x.image1 }}"  width="100" height="100" /></td>
         <td><img src="/media/{{ x.image2 }}"  width="100" height="100" /></td>
         <td><img src="/media/{{ x.image3 }}"  width="100" height="100" /></td>
-        <td><a href="{% url 'deletevehicle' x.id %} " class="btn btn-outline-danger" style="width: 100px">Delete</a> <a href="{% url 'gotoupdatevehiclepage' x.id %}" class="btn btn-outline-info" style="width: 100px" >Update</a> </td>
+
+<!--        <td align="center">{{ x.status }} </td>-->
+
+          {% if  x.status  == "BOOKED" %}<td  align="center" style="color: steelblue"><b>{{ x.status }} </b></td>
+          {% elif x.status  == "CANCELLED" %}<td  align="center" style="color: indianred"><b>{{ x.status }} </b></td>
+          {% else %}<td  align="center" style="color: forestgreen"><b>{{ x.status }} </b></td>
+          {% endif %}
+
+        <td><a href="{% url 'deletevehicle' x.id %} " class="btn btn-outline-danger" style="width: 100px">Delete</a> {% if x.status != "SOLD" %} <a href="{% url 'gotoupdatevehiclepage' x.id %}" class="btn btn-outline-info" style="width: 100px" >Update</a> {% endif %} </td>
 
 
       </tr>

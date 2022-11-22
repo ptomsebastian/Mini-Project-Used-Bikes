@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
+from twilio.rest import Client
+
 # Create your views here.
 
 from django.apps import apps
@@ -90,7 +92,7 @@ def getupdatedprofile(request):
 
 def vehicles(request):
     brnd = Brand.objects.all().order_by('name').values()
-    vehicles = Vehicle.objects.all().values()
+    vehicles = Vehicle.objects.all().exclude(status="BOOKED") & Vehicle.objects.all().exclude(status="SOLD")
     vname = Vehiclename.objects.all().values()
     # print(vehicles)
     context = {'brnd': brnd, 'vehicles': vehicles, 'vname': vname}
@@ -314,7 +316,31 @@ def paymenthandler2(request):
                     c=Cart.objects.get(id=cid)
                     c.delete()
 
-                    return redirect('view_bookings')
+
+                    vnum=Vehicle.objects.get(id=bvid2)
+                    vnum.status="BOOKED"
+                    vnum.save()
+                    cus=Customer.objects.get(id=uid)
+                    paid = (amt * 5) / 100
+
+                    smsmsg ='BOOKING RECEIPT \n****************************** \nBooking ID: ' + str(bookid) + '\n\nCustomer Name: ' + cus.name + '\n\nVehicle Number: ' + vnum.vehiclenumber + '\n\nAmount Paid: ' + str(paid) + '\n******************************'
+                    mob = '+91' + str(7510734911)
+                    account_sid = 'ACf4cff537e8e5e8fadbb9965acb4b0959'
+                    auth_token = '421f07f38492519a00c85d10bc96ab72'
+                    client = Client(account_sid, auth_token)
+
+                    message = client.messages.create(
+
+                        body=smsmsg,
+                        from_='+12057362452',
+                        to = mob
+
+                    )
+
+                    url = '/customer/view_bookings'
+                    resp_body = '<script>alert("Booked successfully");\
+                                                    window.location="%s"</script>' % url
+                    return HttpResponse(resp_body)
 
 
                     # return HttpResponse('success')
@@ -435,6 +461,7 @@ def paymenthandler(request):
                     bk= Booking()
                     bk.customer_id=uid
                     bk.vehicle_id=bvid
+
                     bk.status="BOOKED"
                     bk.save()
 
@@ -445,8 +472,31 @@ def paymenthandler(request):
                     pay.status = "BOOKED"
                     pay.amount = amt
                     pay.save()
-                    return redirect('view_bookings')
 
+                    vnum = Vehicle.objects.get(id=bvid)
+                    vnum.status="BOOKED"
+                    vnum.save()
+                    cus = Customer.objects.get(id=uid)
+                    paid= (amt * 5)/100
+
+
+                    smsmsg ='BOOKING RECEIPT \n****************************** \nBooking ID: ' + str(bookid) + '\n\nCustomer Name: ' + cus.name + '\n\nVehicle Number: ' + vnum.vehiclenumber + '\n\nAmount Paid: ' + str(paid) + '\n******************************'
+                    mob = '+91' + str(7510734911)
+                    account_sid = 'ACf4cff537e8e5e8fadbb9965acb4b0959'
+                    auth_token = '421f07f38492519a00c85d10bc96ab72'
+                    client = Client(account_sid, auth_token)
+
+                    message = client.messages.create(
+
+                        body=smsmsg,
+                        from_='+12057362452',
+                        to = mob
+
+                    )
+                    url = '/customer/view_bookings'
+                    resp_body = '<script>alert("Booked successfully");\
+                                                    window.location="%s"</script>' % url
+                    return HttpResponse(resp_body)
 
                     # return HttpResponse('success')
                 except:

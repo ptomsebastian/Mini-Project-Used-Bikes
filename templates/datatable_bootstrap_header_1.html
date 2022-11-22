@@ -4,7 +4,9 @@
 
 <head>
 
-
+    <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -15,6 +17,26 @@
 
     <!-- Title Page-->
     <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src = "https://code.jquery.com/jquery-3.5.1.js"> </script>
+    <script src = "https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"> </script>
+
+<script>
+    $(document).ready( function () {
+    $('#example').DataTable();
+} );
+    </script>
+
+
+<style type="text/css">
+#category {
+	font-size: medium;
+}
+ </style>
+
+
+
+
 
     <!-- Fontfaces CSS-->
     <link href="{% static 'example/css/font-face.css'  %}" rel ="stylesheet" media="all">
@@ -36,20 +58,13 @@
 
     <!-- Main CSS-->
     <link href="{% static 'example/css/theme.css'  %}" rel="stylesheet" media="all">
-    <link href="{% static 'css/button.css'  %}" rel ="stylesheet">
-<link href="{% static 'css/button2.css'  %}" rel ="stylesheet">
 
-<!--    <link href="{% static 'css/card1.css'  %}" rel ="stylesheet">-->
-
-    <link href="{% static 'css/rainbowimg.css'  %}" rel ="stylesheet">
-    <link href="{% static 'css/rainbow.css'  %}" rel ="stylesheet" type="text/css">
-   <link href="{% static 'css/rainbowbox.css'  %}" rel ="stylesheet" type="text/css">
     <link href="{% static 'css/rainbowhead.css'  %}" rel ="stylesheet" type="text/css">
 </head>
+<link href="{% static 'css/button.css'  %}" rel ="stylesheet">
+<link href="{% static 'css/button2.css'  %}" rel ="stylesheet">
 
-
-<body class="animsition">
-
+<body class="" >
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
         <header class="header-mobile d-block d-lg-none">
@@ -196,38 +211,40 @@
                                 </li>
                             </ul>
                         </li>-->
+
+
                         <li>
-                            <a href="{% url 'editprofile' %}">
-                                <i class="far fa-user-circle"></i>Profile</a>
+                            <a href="{% url 'vehicle_management' %}">
+                                <i class="fas fa-bicycle"></i>Vehicle Management</a>
                         </li>
                         <li>
-                            <a href="{% url 'vehicles' %}">
-                                <i class="fas fa-bicycle"></i>Vehicles</a>
+                            <a href="{% url 'home_page_management' %}">
+                                <i class="fas fa-home"></i>Home Page Information</a>
                         </li>
                         <li>
-                            <a href="{% url 'cart' %}">
-                                <i class="fas fa-shopping-cart"></i>Cart</a>
+                            <a href="{% url 'book_management' %}">
+                                <i class="fab fa-stack-overflow"></i>Bookings</a>
                         </li>
                         <li>
-                            <a href="{% url 'view_bookings' %}">
-                                <i class="fab fa-stack-overflow"></i>View Bookings</a>
+                            <a href="{% url 'feedback_management' %}">
+                                <i class="far fa-comment-alt"></i>Enquiry Management</a>
                         </li>
-<!--                        <li>-->
-<!--                            <a href="{% url 'feedback' %}">-->
-<!--                                <i class="far fa-comment-alt"></i>Feedback</a>-->
-<!--                        </li>-->
+                        <li>
+                            <a href="{% url 'business_report' %}">
+                                <i class="fas fa-chart-line"></i>Business Report</a>
+                        </li>
+                         <li>
+                            <a href="{% url 'brand_management' %}">
+                                <i class="fas fa-anchor"></i>Brand Name Management</a>
+                        </li>
+                         <li>
+                            <a href="{% url 'vehicle_name_management' %}">
+                                <i class="fa fa-text-width"></i>Vehicle Name Management</a>
+                        </li>
                          <li>
                             <a href="{% url 'gk_logout' %}">
                                 <i class="fas fa-sign-out-alt"></i>Logout</a>
                         </li>
-<!--                         <li>-->
-<!--                            <a href="{% static 'example/map.html'  %}">-->
-<!--                                <i class="fas fa-map-marker-alt"></i>Status</a>-->
-<!--                        </li>-->
-<!--                         <li>-->
-<!--                            <a href="">-->
-<!--                                <i class="fas fa-map-marker-alt"></i>Logout</a>-->
-<!--                        </li>-->
                        <!-- <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-copy"></i>Pages</a>
@@ -460,7 +477,6 @@
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-
 
 
 

@@ -13,7 +13,12 @@ from .forms import VehicleForm
 from.models import User,Brand,Vehiclename,Vehicle,Customer,Feedback,Info,Booking
 from django.conf import settings
 from django.core.mail import send_mail
+from datetime import timedelta, datetime
+from django.db.models.functions import Now
+from django.utils.timezone import now
 import smtplib
+from django.db.models import Q
+
 
 
 User = get_user_model()
@@ -21,7 +26,21 @@ User = get_user_model()
 # Create your views here.
 
 
+
 def index(request):
+    now = datetime.now()
+    bh=Booking.objects.filter(created_at__lte=now-timedelta(days=1)) & Booking.objects.filter(status="BOOKED")
+    print(bh)
+    for x in bh:
+        x.status="CANCELLED"
+        print(x.updated_at.date())
+        x.save()
+    for i in bh:
+        print(i.vehicle_id)
+        vh=Vehicle.objects.get(id=i.vehicle_id)
+        vh.status="CANCELLED"
+        vh.save()
+
     home = Info.objects.all().values()
     context = {'home': home}
     return render(request, 'index.html',context)
@@ -36,8 +55,22 @@ def signup(request):
 def gk_logout(request):
     # Log out the user.
     logout(request)
+    now = datetime.now()
+    bh=Booking.objects.filter(created_at__lte=now-timedelta(days=1)) & Booking.objects.filter(status="BOOKED")
+    print(bh)
+    for x in bh:
+        x.status="CANCELLED"
+        x.save()
+    for i in bh:
+        print(i.vehicle_id)
+        vh=Vehicle.objects.get(id=i.vehicle_id)
+        vh.status="CANCELLED"
+        vh.save()
+
+    home = Info.objects.all().values()
+    context = {'home': home}
     # Return to homepage.
-    return render(request, 'index.html')
+    return render(request, 'index.html',context)
 
 
 # def lab_logout(request):
@@ -49,7 +82,7 @@ def gk_logout(request):
 
 def vehicle_management(request):
     brnd = Brand.objects.all().order_by('name').values()
-    vehicles = Vehicle.objects.all().values()
+    vehicles = Vehicle.objects.all().order_by('status')
     vname = Vehiclename.objects.all().values()
     print(vehicles)
     context = {'brnd': brnd,'vehicles':vehicles,'vname': vname}
@@ -90,13 +123,46 @@ def book_management(request):
     context = {'bk': bk, 'cus': cus}
     return render(request, 'labadmin/9booking.html', context)
 
+def changetosold(request,sid):
+    bk = Booking.objects.get(id=sid)
+    bk.status="SOLD"
+    bk.save()
+    vh=Vehicle.objects.get(id=bk.vehicle_id)
+    vh.status="SOLD"
+    vh.save()
+    url = '/book_management'
+    resp_body = '<script>alert("Vehicle is SOLD");\
+                                window.location="%s"</script>' % url
+    return HttpResponse(resp_body)
+
+
 
 # def feedback_management(request):
 #     return HttpResponse("success")
 
 
 def business_report(request):
-    return HttpResponse("success")
+    bk=Booking.objects.filter(status='SOLD').order_by('-updated_at')
+    c = bk.count()
+    print(c)
+    sum = 0
+    for i in bk:
+        sum = sum + i.vehicle.price
+
+    if request.method=="POST":
+        d1=request.POST['startdate']
+        bk=Booking.objects.filter((Q(updated_at__contains = d1) & Q(status="SOLD"))).order_by('-updated_at')
+        print(bk)
+        c=bk.count()
+        print(c)
+        sum=0
+        for i in bk:
+            sum=sum+i.vehicle.price
+
+        print(sum)
+
+    context = {'bk': bk,'sum':sum,'count':c}
+    return render(request, 'labadmin/10report.html',context)
 
 
 def brand_management(request):
@@ -108,12 +174,19 @@ def brand_management(request):
 def getbrand(request):
     brand = request.POST['brand']
     print(brand)
-    b=Brand()
-    b.name=brand
-    b.save()
-    url = '/brand'
-    resp_body = '<script>alert("Brand added successfully");\
-                            window.location="%s"</script>' % url
+    br=Brand.objects.filter(name=brand)
+    if len(br)==0:
+        b = Brand()
+        b.name = brand
+        b.save()
+        url = '/brand'
+        resp_body = '<script>alert("Brand added successfully");\
+                                    window.location="%s"</script>' % url
+    else:
+        url = '/brand'
+        resp_body = '<script>alert("Brand already exists!");\
+                                    window.location="%s"</script>' % url
+
     return HttpResponse(resp_body)
     return redirect('brand_management')
 
@@ -141,13 +214,19 @@ def getvehiclename(request):
     print(brand)
     vehiclename = request.POST['Vehicle Name']
     print(vehiclename)
-    b=Vehiclename()
-    b.name=vehiclename
-    b.brand_id=brand
-    b.save()
-    url = '/vehiclename'
-    resp_body = '<script>alert("Vehicle name added successfully");\
-                            window.location="%s"</script>' % url
+    vn=Vehiclename.objects.filter(name=vehiclename)
+    if len(vn)==0:
+        b = Vehiclename()
+        b.name = vehiclename
+        b.brand_id = brand
+        b.save()
+        url = '/vehiclename'
+        resp_body = '<script>alert("Vehicle name added successfully");\
+                                window.location="%s"</script>' % url
+    else:
+        url = '/vehiclename'
+        resp_body = '<script>alert("Vehicle name already exists!");\
+                                window.location="%s"</script>' % url
     return HttpResponse(resp_body)
     return redirect('vehicle_name_management')
 
@@ -474,7 +553,8 @@ def login_user(request):
                     request.session['uname'] = customer.name
                     # login(request, user)
                     # return render(request, 'customer/user dash.html', context)
-                    return render(request, 'index3.html')
+                    context={'customer':customer}
+                    return render(request, 'index3.html',context)
 
                 else:
                     return HttpResponse('User not found!')

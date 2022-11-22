@@ -45,8 +45,9 @@
         <th >Vehicle Name</th>
         <th >Vehicle Number</th>
         <th >Date</th>
-        <th >Phone</th>
-        <th >Status</th>
+        <th>Phone</th>
+        <th>Status</th>
+          <th></th>
 
 
 
@@ -59,16 +60,21 @@
       <tr align="center">
          <td>{{forloop.counter}}</td>
           <td>{{ x.id }} </td>
-          <td> {% for c in cus %} {{ c.name }} {% endfor %} </td>
+          <td> {{ x.customer.name }}</td>
+<!--          <td> {% for c in cus %} {{ c.name }} {% endfor %} </td>-->
          <td>{{ x.vehicle.vehiclename_id.name }}</td>
           <td>{{ x.vehicle.vehiclenumber }}</td>
 <!--          <td> {% for i in vh %} {{ i.vehiclenumber }} {% endfor %} </td>-->
         <td>{{ x.created_at }} </td>
 
-        <td>{% for c in cus %} {{ c.phone }} {% endfor %} </td>
-          <td  align="center"><b>{{ x.status }} </b></td>
-<!--       <td  align="center"><a href="" onclick="return confirm('Are you sure that you want to cancel ?')" class="btn-hover color-10" style="width: 100px">Cancel</a></td>-->
+        <td>{{  x.customer.phone }}</td>
 
+          {% if  x.status  == "BOOKED" %}<td  align="center" style="color: steelblue"><b>{{ x.status }} </b></td>
+          {% elif x.status  == "CANCELLED" %}<td  align="center" style="color: indianred"><b>{{ x.status }} </b></td>
+          {% else %}<td  align="center" style="color: forestgreen"><b>{{ x.status }} </b></td>
+          {% endif %}
+
+       <td  align="center"> {% if x.status == "BOOKED" %} <a href="{% url 'changetosold' x.id %}" class="btn btn-outline-success" ><b><i>SOLD</i></b></a>{% endif %}</td>
 
       </tr>
 {% endfor %}

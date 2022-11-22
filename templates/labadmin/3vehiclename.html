@@ -12,7 +12,7 @@
 
 <!--<body>-->
 
-{% include "admin_header.html" %}
+{% include "datatable_bootstrap_header.html" %}
 
 <form method="post" action="{% url 'getvehiclename' %}" method="post">
                    {% csrf_token %}
@@ -29,28 +29,28 @@
   <div align="center">
 
 
- <div class="row m-t-30">
-                            <div class="col-md-12">
+  <div class="row m-t-5" >
+                            <div class="col-md-12" >
                                 <!-- DATA TABLE-->
-                                <div class="table-data3">
+                                <div class="table-data3" >
 
 
-    <table border=""  class="display" width="1000" height="500" class="table-primary">
+    <table id="example" class="display" style="width:100%" border="0.5">
 <thead>
 
-      <tr>
-        <th width="73" height="69">Sl. No</th>
-        <th width="185">Vehicle Name</th>
-         <th width="185"></th>
+      <tr align="center">
+        <th width="90">Sl. No</th>
+        <th  width="185">Vehicle Name</th>
+          <th width="110" ></th>
       </tr>
 </thead>
 
       {% for vn in vehiclename %}
-      <tr>
+      <tr align="center">
         <td>{{forloop.counter}}
          </td>
         <td>{{vn.name}} </td>
-        <td width="185"><a href="{% url 'deletevehiclename' vn.id %}"   class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a> </td>
+        <td><a href="{% url 'deletevehiclename' vn.id %}"   class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a> </td>
       </tr>
        {% endfor %}
 
@@ -58,8 +58,8 @@
   </div>
 
 </form>
-
-{% include "admin_footer.html" %}
+</tbody>
+{% include "datatable_bootstrap_footer.html" %}
 
 <!--</body>-->
 <!--</html>-->

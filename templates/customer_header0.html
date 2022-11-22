@@ -39,12 +39,12 @@
     <link href="{% static 'css/button.css'  %}" rel ="stylesheet">
 <link href="{% static 'css/button2.css'  %}" rel ="stylesheet">
 
-<!--    <link href="{% static 'css/card1.css'  %}" rel ="stylesheet">-->
+    <link href="{% static 'css/card1.css'  %}" rel ="stylesheet">
 
     <link href="{% static 'css/rainbowimg.css'  %}" rel ="stylesheet">
     <link href="{% static 'css/rainbow.css'  %}" rel ="stylesheet" type="text/css">
    <link href="{% static 'css/rainbowbox.css'  %}" rel ="stylesheet" type="text/css">
-    <link href="{% static 'css/rainbowhead.css'  %}" rel ="stylesheet" type="text/css">
+    <link href="{% static 'css/rainbowhead1.css'  %}" rel ="stylesheet" type="text/css">
 </head>
 
 
@@ -177,6 +177,14 @@
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
+<!--                    *****************************-->
+                    <div align="left">
+                           <i><b><h6 align="center" class="display text mb rainbowhead1" style="color: darkslategrey">Welcome,<br> {{ customer.name }}</h6></b></i>
+                        </div>
+<!--                           <i> <b><h3 align="center" style="color: darkslategrey">{{ customer.name }}</h3></b></i>-->
+<!--                    *****************************-->
+<!--                            <br>-->
+                    &nbsp;
                     <ul class="list-unstyled navbar__list">
                        <!-- <li class="active has-sub">
                             <a class="js-arrow" href="#">
@@ -196,6 +204,11 @@
                                 </li>
                             </ul>
                         </li>-->
+<!--                        <li>-->
+<!--                            <i>&nbsp;<b><h4 align="center" style="color: steelblue">WELCOME, <br> </h4></b></i>-->
+<!--                            <i><b><h2 align="center" style="color: steelblue">{{ customer.name }}</h2></b></i>-->
+<!--                            <br>-->
+<!--                        </li>-->
                         <li>
                             <a href="{% url 'editprofile' %}">
                                 <i class="far fa-user-circle"></i>Profile</a>

@@ -43,7 +43,7 @@
 
           {% for x in home %}
 
-         <tr>
+         <tr align="center">
         <td>{{forloop.counter}}</td>
        <td><img src="/media/{{ x.image }}"  width="300" height="200" /></td>
     <td><a href="{% url 'deletehomeimage' x.id %}" class="btn btn-outline-danger" style="width: 100px" onclick="return confirm('Are you sure that you want to delete?')">Delete</a></td>
